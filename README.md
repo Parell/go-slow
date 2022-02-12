@@ -1,2 +1,2 @@
 # Moonshine
- My realistic space shooter.
+ My realistic space shooter
