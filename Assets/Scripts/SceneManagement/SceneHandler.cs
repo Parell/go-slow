@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
 public class SceneHandler : ScriptableObject
 {
     public void LoadScene(string scene)
     {
-        SceneManager.LoadSceneAsync(scene, LoadSceneMode.Single);
+        Addressables.LoadSceneAsync(scene, LoadSceneMode.Single);
     }
 
     public void QuitAplication()
