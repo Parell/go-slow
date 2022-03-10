@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class VelocityArrow : MonoBehaviour
 {
-    public Player player;
+    public new Rigidbody rigidbody;
 
     void Update()
     {
-        transform.rotation = Quaternion.LookRotation(player.rigidbody.velocity, Vector3.up);
+        transform.rotation = Quaternion.LookRotation(rigidbody.velocity, Vector3.up);
     }
 }
