@@ -18,15 +18,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (isPaused)
-        {
-            Time.timeScale = 0f;
-        }
-        else
-        {
-            Time.timeScale = 1f;
-        }
-
         if (timerIsRunning)
         {
             if (timeRemaining > 0)

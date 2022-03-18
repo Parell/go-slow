@@ -2,19 +2,41 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform target;
-    public Rigidbody rb;
+    [SerializeField] private Transform target;
+    [SerializeField] private Rigidbody rb;
 
-    public float smoothSpeed = 0.125f;
-    public Vector3 offset;
+    [Space]
+    [SerializeField] private Vector3 offset;
+    [SerializeField] private bool lockCamera;
+
+    [Space]
+    [SerializeField] private float minZoom = 30;
+    [SerializeField] private float maxZoom = 80;
+    [SerializeField] private float sensitivity = 1;
+    [SerializeField] private float speed = 30;
+
+    private Camera cam;
+    private float targetZoom;
+
+    private void Awake()
+    {
+        cam = GetComponent<Camera>();
+    }
+
+    void Update()
+    {
+        targetZoom -= Input.mouseScrollDelta.y * sensitivity;
+        targetZoom = Mathf.Clamp(targetZoom, minZoom, maxZoom);
+        cam.fieldOfView = Mathf.MoveTowards(cam.fieldOfView, targetZoom, speed * Time.deltaTime);
+    }
 
     private void FixedUpdate()
     {
-        Vector3 nextPosition = target.position + offset + (rb.velocity * 0.3f);
-        Vector3 smoothPosition = Vector3.Lerp(transform.position, nextPosition, smoothSpeed);
+        transform.position = target.position + offset;
 
-        transform.position = smoothPosition;
-
-        transform.eulerAngles = new Vector3(90, target.eulerAngles.y, 0);
+        if (lockCamera)
+        {
+            transform.eulerAngles = new Vector3(90, target.eulerAngles.y, 0);
+        }
     }
 }

@@ -1,10 +1,9 @@
 using UnityEngine;
 
-public class MenuController : MonoBehaviour
+public class Menu : MonoBehaviour
 {
     [SerializeField] private GameObject menu;
     [SerializeField] private GameObject options;
-    [SerializeField] private GameObject credits;
 
     private void Awake()
     {
@@ -15,11 +14,5 @@ public class MenuController : MonoBehaviour
     {
         menu.SetActive(options.activeSelf);
         options.SetActive(!options.activeSelf);
-    }
-
-    public void HandleCredits()
-    {
-        menu.SetActive(credits.activeSelf);
-        credits.SetActive(!credits.activeSelf);
     }
 }

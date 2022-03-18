@@ -20,9 +20,9 @@ public class CursorManager : MonoBehaviour
 
     private void IsMouseOverUI()
     {
-        if (IsMouseOverIgnores())
+        if (IsMouseOverIgnores() || GameManager.Instance.isPaused)
         {
-            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
         else if (!IsMouseOverIgnores())
@@ -40,6 +40,7 @@ public class CursorManager : MonoBehaviour
 
         List<RaycastResult> raycastResultList = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerEventData, raycastResultList);
+
         for (int i = 0; i < raycastResultList.Count; i++)
         {
             if (raycastResultList[i].gameObject.GetComponent<Clickthrough>() != null)
@@ -48,6 +49,7 @@ public class CursorManager : MonoBehaviour
                 i--;
             }
         }
+
         return raycastResultList.Count > 0;
     }
 }

@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    [HideInInspector] public new Rigidbody rigidbody;
+    [HideInInspector] public Rigidbody rb;
     [HideInInspector] public Player player;
 
     public Thruster[] thrusters;
-
     [Space]
 
+    public bool shipDisabled;
     public Vector3 moveDirection;
     public float yaw;
     public bool mainThruster;
@@ -33,10 +33,10 @@ public class Movement : MonoBehaviour
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         player = GetComponent<Player>();
 
-        rigidbody.mass = totalMass;
+        rb.mass = totalMass;
     }
 
     private void Update()
@@ -47,9 +47,9 @@ public class Movement : MonoBehaviour
         transform.position = new Vector3(transform.position.x, 0, transform.position.z);
         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
 
-        if (GameManager.Instance.isPaused || player.shipDisabled) { StopAllThrusters(); return; }
+        if (GameManager.Instance.isPaused || shipDisabled) { StopAllThrusters(); return; }
 
-        if (rigidbody.mass > emptyMass)
+        if (rb.mass > emptyMass)
         {
             float horizontal = Input.GetAxisRaw("Horizontal");
             float vertical = Input.GetAxisRaw("Vertical");
@@ -65,12 +65,11 @@ public class Movement : MonoBehaviour
         }
         else
         {
-            mainThruster = false;
-            player.shipDisabled = true;
+            shipDisabled = true;
 
             StopAllThrusters();
 
-            rigidbody.mass = emptyMass;
+            rb.mass = emptyMass;
         }
     }
 
@@ -78,14 +77,15 @@ public class Movement : MonoBehaviour
     {
         if (mainThruster)
         {
-            rigidbody.AddRelativeForce(Vector3.forward * mainForce);
+            rb.AddRelativeForce(Vector3.forward * mainForce);
         }
 
-        rigidbody.AddRelativeForce(moveDirection * maneuverForce);
-        rigidbody.AddRelativeTorque(Vector3.up * (2 * maneuverForce) * yaw);
+        rb.AddRelativeForce(moveDirection * maneuverForce);
+        rb.AddRelativeTorque(Vector3.up * (2 * maneuverForce) * yaw);
 
         moveDirection = Vector3.zero;
         yaw = 0f;
+        mainThruster = false;
     }
 
     private void Calculations()
@@ -94,7 +94,7 @@ public class Movement : MonoBehaviour
         mainForce = mainMassFlowRate * mainExitVelocity;
 
         totalDeltaV = maneuverExitVelocity * Mathf.Log(totalMass / emptyMass);
-        currentDeltaV = maneuverExitVelocity * Mathf.Log(totalMass / rigidbody.mass);
+        currentDeltaV = maneuverExitVelocity * Mathf.Log(totalMass / rb.mass);
     }
 
     private void HandleThruster()
@@ -189,17 +189,19 @@ public class Movement : MonoBehaviour
             BurnFuel(mainMassFlowRate);
 
             thrusters[8].StartThruster();
+            thrusters[9].StartThruster();
         }
         else
         {
             thrusters[8].StopThruster();
+            thrusters[9].StopThruster();
         }
         #endregion
     }
 
     private void BurnFuel(float massFlowRate)
     {
-        rigidbody.mass -= massFlowRate * Time.deltaTime;
+        rb.mass -= massFlowRate * Time.deltaTime;
     }
 
     private void StopAllThrusters()
