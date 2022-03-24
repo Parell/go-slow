@@ -50,6 +50,7 @@ public class PauseMenu : MonoBehaviour
 
     public void HandleMenu()
     {
+        hud.SetActive(menu.activeSelf);
         menu.SetActive(!menu.activeSelf);
 
         if (menu.activeSelf)
@@ -62,7 +63,6 @@ public class PauseMenu : MonoBehaviour
 
     public void HandleOptions()
     {
-        hud.SetActive(options.activeSelf);
         menu.SetActive(options.activeSelf);
         options.SetActive(!options.activeSelf);
     }

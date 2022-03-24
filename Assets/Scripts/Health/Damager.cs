@@ -14,7 +14,8 @@ public class Damager : MonoBehaviour
         {
             healthController = collision.gameObject.GetComponent<HealthController>();
 
-            healthController.health -= damageAmount * (int)(collision.relativeVelocity.magnitude * 0.1f);
+            healthController.health -= damageAmount * (int)(collision.relativeVelocity.magnitude);
+            CameraController.Instance.start = true;
 
             if (healthController.health < 0) healthController.health = 0;
             if (healthController.OnHealthChanged != null) healthController.OnHealthChanged(this, EventArgs.Empty);

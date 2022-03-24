@@ -126,4 +126,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageAmount: 1
-  damageSpeedThreshold: 40
+  damageSpeedThreshold: 10

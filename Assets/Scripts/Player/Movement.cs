@@ -9,6 +9,7 @@ public class Movement : MonoBehaviour
     [Space]
 
     public bool shipDisabled;
+    public bool lockInputs;
     public Vector3 moveDirection;
     public float yaw;
     public bool mainThruster;
@@ -51,15 +52,18 @@ public class Movement : MonoBehaviour
 
         if (rb.mass > emptyMass)
         {
-            float horizontal = Input.GetAxisRaw("Horizontal");
-            float vertical = Input.GetAxisRaw("Vertical");
+            if (!lockInputs)
+            {
+                float horizontal = Input.GetAxisRaw("Horizontal");
+                float vertical = Input.GetAxisRaw("Vertical");
 
-            moveDirection.x = horizontal;
-            moveDirection.z = vertical;
+                moveDirection.x = horizontal;
+                moveDirection.z = vertical;
 
-            mainThruster = Input.GetKey(KeyCode.Space);
+                mainThruster = Input.GetKey(KeyCode.Space);
 
-            yaw = Input.GetAxisRaw("Yaw");
+                yaw = Input.GetAxisRaw("Yaw");
+            }
 
             HandleThruster();
         }
@@ -189,12 +193,10 @@ public class Movement : MonoBehaviour
             BurnFuel(mainMassFlowRate);
 
             thrusters[8].StartThruster();
-            thrusters[9].StartThruster();
         }
         else
         {
             thrusters[8].StopThruster();
-            thrusters[9].StopThruster();
         }
         #endregion
     }
