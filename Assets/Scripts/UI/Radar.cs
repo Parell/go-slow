@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class Radar : MonoBehaviour
 {
-    [SerializeField] private Transform radarPingPrefab;
+    [SerializeField] private Transform pingPrefab;
     [SerializeField] private LayerMask radarLayerMask;
 
     [SerializeField] private float rotationSpeed = 200;
     [SerializeField] private float radarDistance = 200;
-    //private List<Collider> colliderList = new List<Collider>();
+    private List<Collider> colliderList = new List<Collider>();
 
     private void Update()
     {
@@ -18,7 +18,7 @@ public class Radar : MonoBehaviour
 
         //if (previousRotation < 0 && currentRotation >= 0)
         //{
-        //    // Half rotation
+        //    Half rotation
         //    colliderList.Clear();
         //}
 
@@ -27,15 +27,15 @@ public class Radar : MonoBehaviour
         {
             if (raycastHit.collider != null)
             {
-                RadarPing radarPing = Instantiate(radarPingPrefab, raycastHit.point, Quaternion.identity).GetComponent<RadarPing>();
+                RadarPing radarPing = Instantiate(pingPrefab, raycastHit.point, Quaternion.identity).GetComponent<RadarPing>();
 
                 //if (!colliderList.Contains(raycastHit.collider))
                 //{
                 //    colliderList.Add(raycastHit.collider);
 
-                //    //RadarPing radarPing = Instantiate(radarPingPrefab, raycastHit.point, Quaternion.identity).GetComponent<RadarPing>();
+                //    RadarPing radarPing = Instantiate(pingPrefab, raycastHit.point, Quaternion.identity).GetComponent<RadarPing>();
 
-                //    //radarPing.SetDisappearTimer(360f / rotationSpeed * 1f);
+                //    radarPing.SetDisappearTimer(360f / rotationSpeed * 1f);
                 //}
             }
         }

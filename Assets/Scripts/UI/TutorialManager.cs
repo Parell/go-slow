@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
+    [SerializeField] private Player player;
     [SerializeField] private GameObject[] popUps;
     public int popUpIndex;
-    [SerializeField] private Movement movement;
+
+    private bool w, a, s, d, q, e;
 
     private void Awake()
     {
@@ -13,6 +15,12 @@ public class TutorialManager : MonoBehaviour
             PlayerPrefs.SetInt("tutorial", 0);
         }
 
+        popUpIndex = PlayerPrefs.GetInt("tutorial");
+    }
+
+    public void ResetTutorial()
+    {
+        PlayerPrefs.SetInt("tutorial", 0);
         popUpIndex = PlayerPrefs.GetInt("tutorial");
     }
 
@@ -32,23 +40,37 @@ public class TutorialManager : MonoBehaviour
 
         if (popUpIndex == 0)
         {
-            if (movement.moveDirection.x == -1 || movement.moveDirection.x == 1 || movement.moveDirection.z == -1 || movement.moveDirection.z == 1)
+            if (player.moveDirection.x == 1 || player.moveDirection.x == -1 || player.moveDirection.z == 1 || player.moveDirection.z == -1)
             {
-                popUpIndex++;
-                Save();
+                if (player.moveDirection.x == 1) { w = true; }
+                if (player.moveDirection.x == -1) { s = true; }
+                if (player.moveDirection.z == 1) { d = true; }
+                if (player.moveDirection.z == -1) { a = true; }
+
+                if (w && a && s && d)
+                {
+                    popUpIndex++;
+                    Save();
+                }
             }
         }
         else if (popUpIndex == 1)
         {
-            if (movement.yaw == -1 || movement.yaw == 1)
+            if (player.yaw == 1 || player.yaw == -1)
             {
-                popUpIndex++;
-                Save();
+                if (player.yaw == 1) { q = true; }
+                if (player.yaw == -1) { e = true; }
+
+                if (q && e)
+                {
+                    popUpIndex++;
+                    Save();
+                }
             }
         }
         else if (popUpIndex == 2)
         {
-            if (movement.mainThruster)
+            if (player.mainThruster)
             {
                 popUpIndex++;
                 Save();
@@ -64,11 +86,6 @@ public class TutorialManager : MonoBehaviour
         }
         else if (popUpIndex == 4)
         {
-            if (Input.GetMouseButtonUp(0))
-            {
-                popUpIndex++;
-                Save();
-            }
         }
     }
 
