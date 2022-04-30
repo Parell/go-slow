@@ -31,7 +31,7 @@ public class Options : MonoBehaviour
             ResetSettings();
         }
 
-        //Application.targetFrameRate = 60;
+        Application.targetFrameRate = 60;
 
         Load();
     }
@@ -86,8 +86,8 @@ public class Options : MonoBehaviour
         PlayerPrefs.SetInt("resolution", 0);
         PlayerPrefs.SetInt("fullscreen", boolToInt(true));
         PlayerPrefs.SetInt("vsync", 1);
-        PlayerPrefs.SetFloat("master", 1);
-        PlayerPrefs.SetFloat("music", 1);
+        PlayerPrefs.SetFloat("master", 0.5f);
+        PlayerPrefs.SetFloat("music", 0.5f);
 
         Debug.Log("Reset settings");
     }

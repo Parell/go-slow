@@ -26,8 +26,8 @@ public class PauseMenu : MonoBehaviour
             HandleMenu();
         }
 
-        speed.text = string.Format("Speed {0:0.00}m/s", player.rigidbody.velocity.magnitude);
-        deltaV.text = string.Format("DeltaV {0:0.00}m/s", player.totalDeltaV - player.currentDeltaV);
+        speed.text = string.Format("{0:0.00}m/s", player.rigidbody.velocity.magnitude);
+        deltaV.text = string.Format("Fuel {0:0.00}m/s", player.totalDeltaV - player.currentDeltaV);
 
 
         tutorial.SetActive(!menu.activeSelf);

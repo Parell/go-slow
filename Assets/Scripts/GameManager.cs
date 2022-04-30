@@ -3,7 +3,6 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-
     public bool menuOpen = true;
     [Space]
     [SerializeField] private float _gravityConstant = 2.5f;

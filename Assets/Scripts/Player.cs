@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public bool mainThruster;
     [Space]
     public float totalMass;
+    public float currentMass;
     public float emptyMass;
     [Space]
     public float maneuverExitVelocity;
@@ -29,7 +30,7 @@ public class Player : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody>();
 
-        rigidbody.mass = totalMass;
+        currentMass = totalMass;
     }
 
     private void Update()
@@ -42,7 +43,7 @@ public class Player : MonoBehaviour
 
         if (GameManager.Instance.menuOpen || shipDisabled) { StopAllThrusters(); return; }
 
-        if (rigidbody.mass > emptyMass)
+        if (currentMass > emptyMass)
         {
             if (!lockInputs)
             {
@@ -65,7 +66,7 @@ public class Player : MonoBehaviour
 
             StopAllThrusters();
 
-            rigidbody.mass = emptyMass;
+            currentMass = emptyMass;
         }
     }
 
@@ -77,7 +78,7 @@ public class Player : MonoBehaviour
         }
 
         rigidbody.AddRelativeForce(moveDirection * maneuverForce);
-        rigidbody.AddRelativeTorque(Vector3.up * (2 * maneuverForce) * yaw);
+        rigidbody.AddRelativeTorque(Vector3.up * maneuverForce * yaw);
 
         moveDirection = Vector3.zero;
         yaw = 0f;
@@ -90,7 +91,7 @@ public class Player : MonoBehaviour
         mainForce = mainMassFlowRate * mainExitVelocity;
 
         totalDeltaV = maneuverExitVelocity * Mathf.Log(totalMass / emptyMass);
-        currentDeltaV = maneuverExitVelocity * Mathf.Log(totalMass / rigidbody.mass);
+        currentDeltaV = maneuverExitVelocity * Mathf.Log(totalMass / currentMass);
     }
 
     private void HandleThruster()
@@ -98,7 +99,7 @@ public class Player : MonoBehaviour
         #region Forward
         if (moveDirection.z == 1)
         {
-            //BurnFuel(maneuverMassFlowRate);
+            BurnFuel(maneuverMassFlowRate);
 
             thrusters[6].StartThruster();
             thrusters[7].StartThruster();
@@ -113,7 +114,7 @@ public class Player : MonoBehaviour
         #region Back
         if (moveDirection.z == -1)
         {
-            //BurnFuel(maneuverMassFlowRate);
+            BurnFuel(maneuverMassFlowRate);
 
             thrusters[0].StartThruster();
             thrusters[1].StartThruster();
@@ -128,7 +129,7 @@ public class Player : MonoBehaviour
         #region Left
         if (moveDirection.x == -1)
         {
-            //BurnFuel(maneuverMassFlowRate);
+            BurnFuel(maneuverMassFlowRate);
 
             thrusters[2].StartThruster();
             thrusters[3].StartThruster();
@@ -143,7 +144,7 @@ public class Player : MonoBehaviour
         #region Right
         if (moveDirection.x == 1)
         {
-            //BurnFuel(maneuverMassFlowRate);
+            BurnFuel(maneuverMassFlowRate);
 
             thrusters[4].StartThruster();
             thrusters[5].StartThruster();
@@ -158,14 +159,14 @@ public class Player : MonoBehaviour
         #region Yaw
         if (yaw == -1)
         {
-            //BurnFuel(maneuverMassFlowRate);
+            BurnFuel(maneuverMassFlowRate);
 
             thrusters[3].StartThruster();
             thrusters[5].StartThruster();
         }
         else if (yaw == 1)
         {
-            //BurnFuel(maneuverMassFlowRate);
+            BurnFuel(maneuverMassFlowRate);
 
             thrusters[2].StartThruster();
             thrusters[4].StartThruster();
@@ -182,7 +183,7 @@ public class Player : MonoBehaviour
         #region Main
         if (mainThruster)
         {
-            //BurnFuel(mainMassFlowRate);
+            BurnFuel(mainMassFlowRate);
 
             thrusters[8].StartThruster();
         }
@@ -193,10 +194,10 @@ public class Player : MonoBehaviour
         #endregion
     }
 
-    //private void BurnFuel(float massFlowRate)
-    //{
-    //    rigidbody.mass -= massFlowRate * Time.deltaTime;
-    //}
+    private void BurnFuel(float massFlowRate)
+    {
+        currentMass -= massFlowRate * Time.fixedDeltaTime;
+    }
 
     private void StopAllThrusters()
     {

@@ -8,24 +8,22 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Transform target;
     [Space]
     [SerializeField] private Vector3 offset;
-    [SerializeField] private bool lockCamera = true;
+    public bool lockCamera = true;
     [Space]
     [SerializeField] private float minZoom = 30;
     [SerializeField] private float maxZoom = 80;
     [SerializeField] private float sensitivity = 1;
     [SerializeField] private float speed = 30;
     [Space]
-    public bool start = false;
+    public bool startShake = false;
     public AnimationCurve curve;
     public float duration = 1f;
 
-    private Camera cam;
     private float targetZoom;
 
     private void Awake()
     {
         Instance = this;
-        cam = GetComponent<Camera>();
     }
 
     private void Update()
@@ -34,15 +32,15 @@ public class CameraController : MonoBehaviour
         {
             targetZoom -= Input.mouseScrollDelta.y * sensitivity;
             targetZoom = Mathf.Clamp(targetZoom, minZoom, maxZoom);
-            cam.fieldOfView = Mathf.MoveTowards(cam.fieldOfView, targetZoom, speed * Time.deltaTime);
+            offset.y = Mathf.MoveTowards(offset.y, targetZoom, speed * Time.deltaTime);
         }
     }
 
     private void FixedUpdate()
     {
-        if (start)
+        if (startShake)
         {
-            start = false;
+            startShake = false;
             StartCoroutine(Shaking());
         }
         else
