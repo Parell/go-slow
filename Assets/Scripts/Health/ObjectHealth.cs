@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class OtherHealth : MonoBehaviour
+public class ObjectHealth : MonoBehaviour
 {
     public float damageSpeedThreshold;
     [Space]

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthController : MonoBehaviour
+public class PlayerHealth : MonoBehaviour
 {
     private Player player;
     [SerializeField] private GameObject respawnMenu;

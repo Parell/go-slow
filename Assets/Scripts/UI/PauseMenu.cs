@@ -6,7 +6,6 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject hud;
     [SerializeField] private GameObject menu;
     [SerializeField] private GameObject options;
-    [SerializeField] private GameObject respawn;
     [SerializeField] private GameObject tutorial;
     [Space]
     [SerializeField] private Text speed;
