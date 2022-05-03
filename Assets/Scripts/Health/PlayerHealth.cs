@@ -40,7 +40,7 @@ public class PlayerHealth : MonoBehaviour
             {
                 GameObject fracturedObject = Instantiate(fractured, player.transform) as GameObject;
 
-                player.transform.GetChild(13).gameObject.transform.parent = null;
+                player.transform.GetChild(12).gameObject.transform.parent = null;
             }
         }
     }

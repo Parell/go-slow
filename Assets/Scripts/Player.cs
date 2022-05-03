@@ -196,7 +196,7 @@ public class Player : MonoBehaviour
 
     private void BurnFuel(float massFlowRate)
     {
-        currentMass -= massFlowRate * Time.fixedDeltaTime;
+        currentMass -= massFlowRate * Time.deltaTime;
     }
 
     private void StopAllThrusters()

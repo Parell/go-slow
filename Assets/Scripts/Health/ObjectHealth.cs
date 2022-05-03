@@ -7,20 +7,35 @@ public class ObjectHealth : MonoBehaviour
     public GameObject original;
     public GameObject fractured;
 
+    public bool destroyOnStart;
+
     private int hasCollided = 1;
+
+    private void Start()
+    {
+        if (destroyOnStart)
+        {
+            Destroy();
+        }
+    }
 
     public void OnCollisionEnter(Collision collision)
     {
         if (collision.relativeVelocity.magnitude > damageSpeedThreshold && hasCollided != 0)
         {
-            original.SetActive(false);
+            Destroy();
+        }
+    }
 
-            hasCollided -= 1;
+    private void Destroy()
+    {
+        original.SetActive(false);
 
-            if (fractured != null)
-            {
-                GameObject fracturedObject = Instantiate(fractured, this.gameObject.transform) as GameObject;
-            }
+        hasCollided -= 1;
+
+        if (fractured != null)
+        {
+            GameObject fracturedObject = Instantiate(fractured, this.gameObject.transform) as GameObject;
         }
     }
 }

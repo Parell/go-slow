@@ -15,7 +15,7 @@ public class Radar : MonoBehaviour
         RaycastHit[] raycastHitArray = Physics.RaycastAll(transform.position, GetVectorFromAngle(transform.eulerAngles.y), radarDistance, radarLayerMask);
         foreach (RaycastHit raycastHit in raycastHitArray)
         {
-            if (raycastHit.collider != null)
+            if (raycastHit.rigidbody != null)
             {
                 RadarPing radarPing = Instantiate(pingPrefab, raycastHit.point, Quaternion.identity).GetComponent<RadarPing>();
             }

@@ -15,7 +15,7 @@ public class Options : MonoBehaviour
     [Space]
     [SerializeField] private AudioMixer audioMixer;
 
-    private void Awake()
+    private void Start()
     {
         ResolutionUI();
 
@@ -31,7 +31,7 @@ public class Options : MonoBehaviour
             ResetSettings();
         }
 
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 120;
 
         Load();
     }
